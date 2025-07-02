@@ -15,3 +15,7 @@ export interface Model {
   digest: string
   details: ModelDetails
 }
+
+export interface ModelsResponse {
+  models: Model[]
+}

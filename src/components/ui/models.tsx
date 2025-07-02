@@ -4,10 +4,10 @@ import { Model } from '@/app/types/model'
 
 async function LoadModels(): Promise<Model[]> {
   const data = await GetModels()
-  if (!data || !data.response || !Array.isArray(data.response.models)) {
+  if (!data || !Array.isArray(data.models)) {
     throw new Error('Failed to fetch models')
   }
-  return data.response.models
+  return data.models
 }
 
 export default function ModelsList() {
