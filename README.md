@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Docker Usage
+
+To build and run the app with Docker:
+
+```bash
+docker build -t weebiechat .
+docker run -p 3000:3000 --add-host weebiechat.ai:127.0.0.1 weebiechat
+```
+
+Or with docker-compose (recommended):
+
+```bash
+docker-compose up --build
+```
+
+Then access the app at [http://weebiechat.ai:3000](http://weebiechat.ai:3000) in your browser.

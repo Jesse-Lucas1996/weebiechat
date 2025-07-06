@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  weebiechat:
+    build: .
+    container_name: weebiechat
+    ports:
+      - "3000:3000"
+    extra_hosts:
+      - "weebiechat.ai:127.0.0.1"
+    restart: unless-stopped 
