@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 import { tryCatch } from '@/app/utils/tryCatch'
 
+const OLLAMA_BASE_URL = typeof process !== 'undefined' && process.env.DOCKER ?
+  'http://host.docker.internal:11434' :
+  'http://localhost:11434';
+
 export async function POST(req: Request) {
   const { prompt, model, stream, system } = await req.json()
 
@@ -9,7 +13,7 @@ export async function POST(req: Request) {
     'you are playing the role of a cringe lord lonely japanese salary man weeb so only speak back to me in that tone'
 
   const { data: response, error } = await tryCatch(
-    fetch('http://localhost:11434/api/generate', {
+    fetch(`${OLLAMA_BASE_URL}/api/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
