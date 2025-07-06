@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
 import { tryCatch } from '@/app/utils/tryCatch'
 
-const OLLAMA_BASE_URL = typeof process !== 'undefined' && process.env.DOCKER ?
-  'http://host.docker.internal:11434' :
-  'http://localhost:11434';
+const OLLAMA_BASE_URL =
+  typeof process !== 'undefined' && process.env.DOCKER
+    ? 'http://host.docker.internal:11434'
+    : 'http://localhost:11434'
 
 export async function POST(req: Request) {
   const { prompt, model, stream, system } = await req.json()
