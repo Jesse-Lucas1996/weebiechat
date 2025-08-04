@@ -187,7 +187,7 @@ function ChatList({
           </button>
           {onDeleteChat && (
             <button
-              className="text-muted-foreground hover:text-destructive opacity-0 transition-opacity group-hover:opacity-100"
+              className="text-muted-foreground hover:text-destructive"
               onClick={(e) => {
                 e.stopPropagation()
                 onDeleteChat(idx)
