@@ -154,10 +154,12 @@ function SidebarProvider({
 
 function ChatList({
   onSelectChat,
+  onDeleteChat,
   activeChatIndex,
   chats,
 }: {
   onSelectChat: (messages: any[], idx: number) => void
+  onDeleteChat?: (idx: number) => void
   activeChatIndex: number
   chats: { messages: any[]; title: string }[]
 }) {
@@ -170,16 +172,45 @@ function ChatList({
         <div className="muted-foreground pl-2 text-xs">No chats yet</div>
       )}
       {chats.map((chat, idx) => (
-        <button
+        <div
           key={idx}
-          className={`hover:bg-accent focus:bg-accent w-full cursor-pointer truncate rounded px-3 py-2 text-left transition-colors focus:outline-none ${activeChatIndex === idx ? 'bg-accent' : ''}`}
-          title={chat.title || 'Untitled Chat'}
-          onClick={() => onSelectChat(chat.messages, idx)}
+          className={`hover:bg-accent focus:bg-accent group relative flex w-full cursor-pointer items-center justify-between rounded px-3 py-2 transition-colors focus:outline-none ${activeChatIndex === idx ? 'bg-accent' : ''}`}
         >
-          <span className="block truncate text-sm font-medium">
-            {chat.title || 'Untitled Chat'}
-          </span>
-        </button>
+          <button
+            className="flex-1 truncate text-left"
+            title={chat.title || 'Untitled Chat'}
+            onClick={() => onSelectChat(chat.messages, idx)}
+          >
+            <span className="block truncate text-sm font-medium">
+              {chat.title || 'Untitled Chat'}
+            </span>
+          </button>
+          {onDeleteChat && (
+            <button
+              className="text-muted-foreground hover:text-destructive opacity-0 transition-opacity group-hover:opacity-100"
+              onClick={(e) => {
+                e.stopPropagation()
+                onDeleteChat(idx)
+              }}
+              title="Delete chat"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
       ))}
     </div>
   )
@@ -217,6 +248,7 @@ function Sidebar({
   children,
   onSelectChat,
   onNewChat,
+  onDeleteChat,
   chats = [],
   activeChatIndex = 0,
   ...props
@@ -226,6 +258,7 @@ function Sidebar({
   collapsible?: 'offcanvas' | 'icon' | 'none'
   onSelectChat?: (messages: any[], idx: number) => void
   onNewChat?: () => void
+  onDeleteChat?: (idx: number) => void
   chats?: { messages: any[]; title: string }[]
   activeChatIndex?: number
 }) {
@@ -262,6 +295,7 @@ function Sidebar({
         <div className="flex-1 overflow-y-auto">
           <ChatList
             onSelectChat={onSelectChat || (() => {})}
+            onDeleteChat={onDeleteChat}
             activeChatIndex={activeChatIndex}
             chats={chats}
           />
@@ -314,6 +348,7 @@ function Sidebar({
           <div className="flex-1 overflow-y-auto">
             <ChatList
               onSelectChat={onSelectChat || (() => {})}
+              onDeleteChat={onDeleteChat}
               activeChatIndex={activeChatIndex}
               chats={chats}
             />
@@ -357,6 +392,7 @@ function Sidebar({
       <div className="flex-1 overflow-y-auto">
         <ChatList
           onSelectChat={onSelectChat || (() => {})}
+          onDeleteChat={onDeleteChat}
           activeChatIndex={activeChatIndex}
           chats={chats}
         />

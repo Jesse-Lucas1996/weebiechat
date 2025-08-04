@@ -84,6 +84,20 @@ export default function ChatPage() {
     setInputValue('')
   }
 
+  const handleDeleteChat = (idx: number) => {
+    const newChats = chats.filter((_, index) => index !== idx)
+    if (newChats.length === 0) {
+      setChats([{ messages: [], title: '' }])
+      setActiveChatIndex(0)
+    } else {
+      setChats(newChats)
+      if (idx <= activeChatIndex) {
+        const newIndex = Math.max(0, activeChatIndex - 1)
+        setActiveChatIndex(newIndex)
+      }
+    }
+  }
+
   const setChatMessages = (index: number, messages: Message[]) => {
     setChats((prev) => {
       const updated = [...prev]
@@ -111,6 +125,7 @@ export default function ChatPage() {
         setInputValue={setInputValue}
         onNewChat={handleNewChat}
         onSelectChat={handleSelectChat}
+        onDeleteChat={handleDeleteChat}
       />
     </SidebarProvider>
   )
@@ -125,6 +140,7 @@ function ChatPageWithSidebarToggle({
   setInputValue,
   onNewChat,
   onSelectChat,
+  onDeleteChat,
 }: {
   chats: { messages: Message[]; title: string }[]
   activeChatIndex: number
@@ -134,6 +150,7 @@ function ChatPageWithSidebarToggle({
   setInputValue: (v: string) => void
   onNewChat: () => void
   onSelectChat: (idx: number) => void
+  onDeleteChat: (idx: number) => void
 }) {
   const { open, toggleSidebar } = useSidebar()
   return (
@@ -142,6 +159,7 @@ function ChatPageWithSidebarToggle({
         <Sidebar
           onSelectChat={(_, idx) => onSelectChat(idx)}
           onNewChat={onNewChat}
+          onDeleteChat={onDeleteChat}
           chats={chats}
           activeChatIndex={activeChatIndex}
         />
